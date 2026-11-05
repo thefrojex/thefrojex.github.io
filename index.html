@@ -26,13 +26,6 @@
   --body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #0f1513; --panel: #161e1b; --ink: #e3eae6; --ink-soft: #9fb0a9; --rule: #2a3632;
-    --accent: #62c4a6; --accent-wash: #173129; --amber: #e6ad57; --amber-wash: #33270f; --slot: #1b2522;
-    color-scheme: dark;
-  }
-}
 :root[data-theme="dark"] {
   --paper: #0f1513; --panel: #161e1b; --ink: #e3eae6; --ink-soft: #9fb0a9; --rule: #2a3632;
   --accent: #62c4a6; --accent-wash: #173129; --amber: #e6ad57; --amber-wash: #33270f; --slot: #1b2522;
@@ -609,20 +602,16 @@ footer p { margin: 0; font-size: 15px; color: var(--ink-soft); }
   var root = document.documentElement;
   var tbtn = document.getElementById('theme-toggle');
   var tlab = document.getElementById('theme-label');
-  var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
-  function current() { return root.getAttribute('data-theme') || (mq && mq.matches ? 'dark' : 'light'); }
+  function current() { return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; }
   function paint() {
     var next = current() === 'dark' ? 'light' : 'dark';
     tlab.textContent = next === 'dark' ? 'Dark mode' : 'Light mode';
     tbtn.setAttribute('aria-label', 'Switch to ' + next + ' theme');
   }
-  try { var saved = localStorage.getItem('theme'); if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved); } catch (e) {}
+  root.setAttribute('data-theme', 'light');
   paint();
-  if (mq && mq.addEventListener) mq.addEventListener('change', paint);
   tbtn.addEventListener('click', function () {
-    var next = current() === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('theme', next); } catch (e) {}
+    root.setAttribute('data-theme', current() === 'dark' ? 'light' : 'dark');
     paint();
   });
 
