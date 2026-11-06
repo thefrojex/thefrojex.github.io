@@ -109,7 +109,8 @@ h2 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 3.4vw
   position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9;
   border-radius: 12px; overflow: hidden; background: var(--slot); border: 1px solid var(--rule);
 }
-.frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.frame iframe, .frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.frame video { background: #000; object-fit: contain; }
 .frame .poster {
   position: absolute; inset: 0; display: grid; place-items: center; text-decoration: none; color: var(--ink);
   background:
@@ -258,7 +259,7 @@ footer p { margin: 0; font-size: 15px; color: var(--ink-soft); }
   <section aria-labelledby="work">
     <div class="sec-head">
       <h2 id="work">Selected work</h2>
-      <p class="sec-note">Three products, each with the hard problems and the architecture. The WhatsApp CRM has a 3-minute demo.</p>
+      <p class="sec-note">Three products, each with the hard problems and the architecture. The WhatsApp CRM and App Foundry have demo videos.</p>
     </div>
 
     <!-- ===== Project 1: Zavyo =====
@@ -395,8 +396,8 @@ footer p { margin: 0; font-size: 15px; color: var(--ink-soft); }
     <!-- ===== Project 3: App Foundry ===== -->
     <article class="case" id="app-foundry">
       <div class="media">
-        <div class="frame" data-loom="" data-label="App Foundry demo"></div>
-        <p class="media-note">Demo: describe an app in chat → agent builds it → publish live</p>
+        <div class="frame" data-video="media/app-foundry-demo.mp4" data-poster="media/app-foundry-poster.jpg" data-captions="media/app-foundry-demo.vtt" data-label="App Foundry demo"></div>
+        <p class="media-note">Demo, 2:27: one prompt → a working gym management app with its own database</p>
       </div>
       <div class="body">
         <div class="status"><span class="pill warn">private beta</span><span class="pill plain">solo · founder project</span></div>
@@ -589,6 +590,15 @@ footer p { margin: 0; font-size: 15px; color: var(--ink-soft); }
   document.querySelectorAll('.frame').forEach(function (f) {
     var url = (f.getAttribute('data-loom') || '').trim();
     var label = f.getAttribute('data-label') || 'Demo';
+    var vid = (f.getAttribute('data-video') || '').trim();
+    if (vid) {
+      // Self-hosted video: plays in the page, with captions on by default.
+      var cap = f.getAttribute('data-captions');
+      f.innerHTML = '<video controls playsinline preload="none" poster="' + (f.getAttribute('data-poster') || '') + '" aria-label="' + label + '">' +
+        '<source src="' + vid + '" type="video/mp4">' +
+        (cap ? '<track kind="captions" srclang="en" label="English" src="' + cap + '" default>' : '') + '</video>';
+      return;
+    }
     var m = url.match(/loom\.com\/(?:share|embed)\/([a-f0-9]+)/i);
     if (!m) {
       // No video yet: hide the slot and let the case read as one column.
