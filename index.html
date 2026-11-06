@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Abhinav Sharma Portfolio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Abhinav Sharma — applied AI engineer. LLM products built end to end with coding agents: Zavyo, a WhatsApp CRM, and App Foundry.">
+<meta name="description" content="Abhinav Sharma — applied AI engineer. LLM products built end to end with coding agents: App Foundry, a WhatsApp CRM, and Zavyo.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -262,7 +262,131 @@ footer p { margin: 0; font-size: 15px; color: var(--ink-soft); }
       <p class="sec-note">Three products, each with the hard problems and the architecture. The WhatsApp CRM and App Foundry have demo videos.</p>
     </div>
 
-    <!-- ===== Project 1: Zavyo =====
+    <!-- ===== Project 1: App Foundry ===== -->
+    <article class="case" id="app-foundry">
+      <div class="media">
+        <div class="frame" data-video="media/app-foundry-demo.mp4" data-poster="media/app-foundry-poster.jpg" data-captions="media/app-foundry-demo.vtt" data-label="App Foundry demo"></div>
+        <p class="media-note">Demo, 2:27: one prompt → a working gym management app with its own database</p>
+      </div>
+      <div class="body">
+        <div class="status"><span class="pill warn">private beta</span><span class="pill plain">solo · founder project</span></div>
+        <h3 class="case-title">App Foundry</h3>
+        <p class="outcome">Describe an app in chat and a coding agent builds it. One click publishes it live, and you can come back days later and keep editing in conversation.</p>
+        <p class="label">Highlights</p>
+        <ul class="problems">
+          <li><b>An isolated sandbox per app,</b> each with its own coding agent and a live preview that updates as the agent edits.</li>
+          <li><b>Every edit is verified automatically.</b> Checks run after each change, and failures go back to the agent to fix before you see them.</li>
+          <li><b>Safe publishing.</b> Each release is an immutable build, so a failed publish changes nothing for users and rollback is instant, with no rebuild.</li>
+          <li><b>Idle sandboxes sleep and resume on demand,</b> while published apps keep serving without them.</li>
+        </ul>
+        <p class="aside-note">The architecture is right below, followed by the WhatsApp CRM, which runs on App Foundry.</p>
+      </div>
+    </article>
+
+    <div class="arch" id="app-foundry-architecture">
+      <div>
+        <h3>How App Foundry is built</h3>
+        <p class="sub">Editing happens in a sandbox; a published app is static files. Every path to data goes through the workspace database's row-level security.</p>
+      </div>
+      <div class="diagram" role="img" aria-label="App Foundry architecture: the owner chats with the console, which drives a sandbox per app with a coding agent and live preview. Publishing creates an immutable build served to app users. WhatsApp users talk to an agent that acts as them. The sandbox, the published app and the agent all reach one workspace database with a schema per app and row-level security.">
+        <svg viewBox="0 0 900 330" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="ahh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head hot" d="M0,0 L10,5 L0,10 z"/></marker>
+          </defs>
+          <rect class="box" x="10" y="40" width="120" height="56" rx="10"/>
+          <text class="t1" x="70" y="64" text-anchor="middle">Owner</text>
+          <text class="t2" x="70" y="82" text-anchor="middle">chat or MCP</text>
+
+          <rect class="box" x="170" y="40" width="150" height="56" rx="10"/>
+          <text class="t1" x="245" y="64" text-anchor="middle">Console</text>
+          <text class="t2" x="245" y="82" text-anchor="middle">product agent</text>
+
+          <rect class="box key" x="360" y="28" width="170" height="80" rx="10"/>
+          <text class="t1" x="445" y="54" text-anchor="middle">Sandbox per app</text>
+          <text class="t2" x="445" y="73" text-anchor="middle">coding agent</text>
+          <text class="t2" x="445" y="90" text-anchor="middle">live preview + checks</text>
+
+          <rect class="box" x="570" y="40" width="140" height="56" rx="10"/>
+          <text class="t1" x="640" y="64" text-anchor="middle">Immutable build</text>
+          <text class="t2" x="640" y="82" text-anchor="middle">pointer = live</text>
+
+          <rect class="box" x="750" y="40" width="140" height="56" rx="10"/>
+          <text class="t1" x="820" y="64" text-anchor="middle">App users</text>
+          <text class="t2" x="820" y="82" text-anchor="middle">published app</text>
+
+          <rect class="box" x="10" y="160" width="120" height="56" rx="10"/>
+          <text class="t1" x="70" y="184" text-anchor="middle">Team</text>
+          <text class="t2" x="70" y="202" text-anchor="middle">on WhatsApp</text>
+
+          <rect class="box key" x="170" y="160" width="150" height="56" rx="10"/>
+          <text class="t1" x="245" y="184" text-anchor="middle">WhatsApp agent</text>
+          <text class="t2" x="245" y="202" text-anchor="middle">acts as the person</text>
+
+          <rect class="box key" x="360" y="250" width="350" height="64" rx="10"/>
+          <text class="t1" x="535" y="276" text-anchor="middle">Workspace database (Supabase)</text>
+          <text class="t2" x="535" y="295" text-anchor="middle">schema per app · shared core · row-level security</text>
+
+          <path class="edge" d="M130,68 H166" marker-end="url(#ah)"/>
+          <path class="edge" d="M320,68 H356" marker-end="url(#ah)"/>
+          <path class="edge hot" d="M530,68 H566" marker-end="url(#ahh)"/>
+          <text class="lab" x="548" y="58" text-anchor="middle">publish</text>
+          <path class="edge" d="M710,68 H746" marker-end="url(#ah)"/>
+          <path class="edge" d="M130,188 H166" marker-end="url(#ah)"/>
+          <path class="edge" d="M445,108 V246" marker-end="url(#ah)"/>
+          <text class="lab" x="453" y="182">migrations</text>
+          <path class="edge hot" d="M245,216 V282 H356" marker-end="url(#ahh)"/>
+          <text class="lab" x="254" y="250">as the person, RLS</text>
+          <path class="edge" d="M820,96 V282 H714" marker-end="url(#ah)"/>
+          <text class="lab" x="812" y="182" text-anchor="end">app queries</text>
+        </svg>
+      </div>
+      <ul class="decisions">
+        <li>
+          <h4>Publishing is a pointer switch to an immutable build</h4>
+          <p>A build is uploaded first and goes live only when the pointer moves, so a failed publish changes nothing for users. Rollback moves the pointer back, with no rebuild.</p>
+          <p class="trade"><b>Trade-off</b>Rollback can't undo database migrations, so migrations have to be additive.</p>
+        </li>
+        <li>
+          <h4>The AI agent acts as the person, under row-level security</h4>
+          <p>WhatsApp requests run with the sender's identity, so the agent can only see and change what that person could in the app. Reads are guarded and audit-logged; writes go through each app's own functions.</p>
+          <p class="trade"><b>Trade-off</b>Every app has to define its permissions properly, or the agent can't help.</p>
+        </li>
+        <li>
+          <h4>One schema per app in a shared workspace database</h4>
+          <p>Apps in a workspace share core records like people and customers, but each app's own tables live in its own schema and can't alter another app or the core.</p>
+          <p class="trade"><b>Trade-off</b>Preview and published apps share data, so a migration reaches users before the new frontend does.</p>
+        </li>
+        <li>
+          <h4>Sandboxes exist for editing, not serving</h4>
+          <p>Idle sandboxes pause, then archive, and restore on the next edit. Published apps are static files, so they keep working while their sandbox sleeps.</p>
+          <p class="trade"><b>Trade-off</b>The first edit after a long break waits for the sandbox to restore.</p>
+        </li>
+      </ul>
+    </div>
+
+    <!-- ===== Project 2: WhatsApp CRM ===== -->
+    <article class="case" id="crm">
+      <div class="media">
+        <div class="frame" data-loom="https://www.loom.com/share/bba737f7b9664ebd8966fa79235bf1db" data-label="WhatsApp CRM demo, 3 min"></div>
+        <p class="media-note">Demo: business card + voice note → CRM entry and reminders, then a revenue graph on request</p>
+      </div>
+      <div class="body">
+        <div class="status"><span class="pill ok">working demo</span><span class="pill plain">sample data</span><span class="pill plain">built on App Foundry</span></div>
+        <h3 class="case-title">WhatsApp CRM</h3>
+        <p class="outcome">The whole team updates one shared CRM by sending WhatsApp voice notes and business-card photos, so nobody types into a CRM and everyone stays on the same page.</p>
+        <p class="label">What it does</p>
+        <ul class="problems">
+          <li><b>Voice note in, structured record out.</b> "Add this company, follow up Monday" in Hindi, English or Hinglish creates the company, contact, follow-up task and reminders for the day before and the day of.</li>
+          <li><b>Reports from chat.</b> Ask "give me a revenue graph" on WhatsApp; the agent runs the queries, renders the chart on the server and sends it back in the same thread.</li>
+          <li><b>The AI only sees what you can see.</b> The agent acts as the person who messaged it, under row-level security, and changes data only through vetted functions. Every query it runs is audit-logged.</li>
+        </ul>
+        <ul class="stack"><li>Meta WhatsApp Cloud API</li><li>OpenAI tool calling</li><li>Voice transcription</li><li>Supabase + RLS</li><li>Postgres job queue</li></ul>
+        <div class="links"><a href="https://www.loom.com/share/bba737f7b9664ebd8966fa79235bf1db" target="_blank" rel="noopener">Watch the demo on Loom →</a></div>
+      </div>
+    </article>
+
+    <!-- ===== Project 3: Zavyo =====
          To add the demo: paste the Loom share link into data-loom below. -->
     <article class="case" id="zavyo">
       <div class="media">
@@ -368,130 +492,6 @@ footer p { margin: 0; font-size: 15px; color: var(--ink-soft); }
           <h4>Campaigns survive pause, stop and crashes</h4>
           <p>Campaign status is re-checked before every contact, resumed runs skip contacts already sent, and final stats are reconciled so a resume never lowers the numbers.</p>
           <p class="trade"><b>Trade-off</b>No rate limiting or 429 backoff yet, and WebSocket fan-out is single-process. Next step: a task queue with per-number limits, and Redis pub/sub.</p>
-        </li>
-      </ul>
-    </div>
-
-    <!-- ===== Project 2: WhatsApp CRM ===== -->
-    <article class="case" id="crm">
-      <div class="media">
-        <div class="frame" data-loom="https://www.loom.com/share/bba737f7b9664ebd8966fa79235bf1db" data-label="WhatsApp CRM demo, 3 min"></div>
-        <p class="media-note">Demo: business card + voice note → CRM entry and reminders, then a revenue graph on request</p>
-      </div>
-      <div class="body">
-        <div class="status"><span class="pill ok">working demo</span><span class="pill plain">sample data</span><span class="pill plain">built on App Foundry</span></div>
-        <h3 class="case-title">WhatsApp CRM</h3>
-        <p class="outcome">The whole team updates one shared CRM by sending WhatsApp voice notes and business-card photos, so nobody types into a CRM and everyone stays on the same page.</p>
-        <p class="label">What it does</p>
-        <ul class="problems">
-          <li><b>Voice note in, structured record out.</b> "Add this company, follow up Monday" in Hindi, English or Hinglish creates the company, contact, follow-up task and reminders for the day before and the day of.</li>
-          <li><b>Reports from chat.</b> Ask "give me a revenue graph" on WhatsApp; the agent runs the queries, renders the chart on the server and sends it back in the same thread.</li>
-          <li><b>The AI only sees what you can see.</b> The agent acts as the person who messaged it, under row-level security, and changes data only through vetted functions. Every query it runs is audit-logged.</li>
-        </ul>
-        <ul class="stack"><li>Meta WhatsApp Cloud API</li><li>OpenAI tool calling</li><li>Voice transcription</li><li>Supabase + RLS</li><li>Postgres job queue</li></ul>
-        <div class="links"><a href="https://www.loom.com/share/bba737f7b9664ebd8966fa79235bf1db" target="_blank" rel="noopener">Watch the demo on Loom →</a></div>
-      </div>
-    </article>
-
-    <!-- ===== Project 3: App Foundry ===== -->
-    <article class="case" id="app-foundry">
-      <div class="media">
-        <div class="frame" data-video="media/app-foundry-demo.mp4" data-poster="media/app-foundry-poster.jpg" data-captions="media/app-foundry-demo.vtt" data-label="App Foundry demo"></div>
-        <p class="media-note">Demo, 2:27: one prompt → a working gym management app with its own database</p>
-      </div>
-      <div class="body">
-        <div class="status"><span class="pill warn">private beta</span><span class="pill plain">solo · founder project</span></div>
-        <h3 class="case-title">App Foundry</h3>
-        <p class="outcome">Describe an app in chat and a coding agent builds it. One click publishes it live, and you can come back days later and keep editing in conversation.</p>
-        <p class="label">Highlights</p>
-        <ul class="problems">
-          <li><b>An isolated sandbox per app,</b> each with its own coding agent and a live preview that updates as the agent edits.</li>
-          <li><b>Every edit is verified automatically.</b> Checks run after each change, and failures go back to the agent to fix before you see them.</li>
-          <li><b>Safe publishing.</b> Each release is an immutable build, so a failed publish changes nothing for users and rollback is instant, with no rebuild.</li>
-          <li><b>Idle sandboxes sleep and resume on demand,</b> while published apps keep serving without them.</li>
-        </ul>
-        <p class="aside-note">The WhatsApp CRM above was built and runs on App Foundry. The architecture is just below.</p>
-      </div>
-    </article>
-
-    <div class="arch" id="app-foundry-architecture">
-      <div>
-        <h3>How App Foundry is built</h3>
-        <p class="sub">Editing happens in a sandbox; a published app is static files. Every path to data goes through the workspace database's row-level security.</p>
-      </div>
-      <div class="diagram" role="img" aria-label="App Foundry architecture: the owner chats with the console, which drives a sandbox per app with a coding agent and live preview. Publishing creates an immutable build served to app users. WhatsApp users talk to an agent that acts as them. The sandbox, the published app and the agent all reach one workspace database with a schema per app and row-level security.">
-        <svg viewBox="0 0 900 330" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
-            <marker id="ahh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head hot" d="M0,0 L10,5 L0,10 z"/></marker>
-          </defs>
-          <rect class="box" x="10" y="40" width="120" height="56" rx="10"/>
-          <text class="t1" x="70" y="64" text-anchor="middle">Owner</text>
-          <text class="t2" x="70" y="82" text-anchor="middle">chat or MCP</text>
-
-          <rect class="box" x="170" y="40" width="150" height="56" rx="10"/>
-          <text class="t1" x="245" y="64" text-anchor="middle">Console</text>
-          <text class="t2" x="245" y="82" text-anchor="middle">product agent</text>
-
-          <rect class="box key" x="360" y="28" width="170" height="80" rx="10"/>
-          <text class="t1" x="445" y="54" text-anchor="middle">Sandbox per app</text>
-          <text class="t2" x="445" y="73" text-anchor="middle">coding agent</text>
-          <text class="t2" x="445" y="90" text-anchor="middle">live preview + checks</text>
-
-          <rect class="box" x="570" y="40" width="140" height="56" rx="10"/>
-          <text class="t1" x="640" y="64" text-anchor="middle">Immutable build</text>
-          <text class="t2" x="640" y="82" text-anchor="middle">pointer = live</text>
-
-          <rect class="box" x="750" y="40" width="140" height="56" rx="10"/>
-          <text class="t1" x="820" y="64" text-anchor="middle">App users</text>
-          <text class="t2" x="820" y="82" text-anchor="middle">published app</text>
-
-          <rect class="box" x="10" y="160" width="120" height="56" rx="10"/>
-          <text class="t1" x="70" y="184" text-anchor="middle">Team</text>
-          <text class="t2" x="70" y="202" text-anchor="middle">on WhatsApp</text>
-
-          <rect class="box key" x="170" y="160" width="150" height="56" rx="10"/>
-          <text class="t1" x="245" y="184" text-anchor="middle">WhatsApp agent</text>
-          <text class="t2" x="245" y="202" text-anchor="middle">acts as the person</text>
-
-          <rect class="box key" x="360" y="250" width="350" height="64" rx="10"/>
-          <text class="t1" x="535" y="276" text-anchor="middle">Workspace database (Supabase)</text>
-          <text class="t2" x="535" y="295" text-anchor="middle">schema per app · shared core · row-level security</text>
-
-          <path class="edge" d="M130,68 H166" marker-end="url(#ah)"/>
-          <path class="edge" d="M320,68 H356" marker-end="url(#ah)"/>
-          <path class="edge hot" d="M530,68 H566" marker-end="url(#ahh)"/>
-          <text class="lab" x="548" y="58" text-anchor="middle">publish</text>
-          <path class="edge" d="M710,68 H746" marker-end="url(#ah)"/>
-          <path class="edge" d="M130,188 H166" marker-end="url(#ah)"/>
-          <path class="edge" d="M445,108 V246" marker-end="url(#ah)"/>
-          <text class="lab" x="453" y="182">migrations</text>
-          <path class="edge hot" d="M245,216 V282 H356" marker-end="url(#ahh)"/>
-          <text class="lab" x="254" y="250">as the person, RLS</text>
-          <path class="edge" d="M820,96 V282 H714" marker-end="url(#ah)"/>
-          <text class="lab" x="812" y="182" text-anchor="end">app queries</text>
-        </svg>
-      </div>
-      <ul class="decisions">
-        <li>
-          <h4>Publishing is a pointer switch to an immutable build</h4>
-          <p>A build is uploaded first and goes live only when the pointer moves, so a failed publish changes nothing for users. Rollback moves the pointer back, with no rebuild.</p>
-          <p class="trade"><b>Trade-off</b>Rollback can't undo database migrations, so migrations have to be additive.</p>
-        </li>
-        <li>
-          <h4>The AI agent acts as the person, under row-level security</h4>
-          <p>WhatsApp requests run with the sender's identity, so the agent can only see and change what that person could in the app. Reads are guarded and audit-logged; writes go through each app's own functions.</p>
-          <p class="trade"><b>Trade-off</b>Every app has to define its permissions properly, or the agent can't help.</p>
-        </li>
-        <li>
-          <h4>One schema per app in a shared workspace database</h4>
-          <p>Apps in a workspace share core records like people and customers, but each app's own tables live in its own schema and can't alter another app or the core.</p>
-          <p class="trade"><b>Trade-off</b>Preview and published apps share data, so a migration reaches users before the new frontend does.</p>
-        </li>
-        <li>
-          <h4>Sandboxes exist for editing, not serving</h4>
-          <p>Idle sandboxes pause, then archive, and restore on the next edit. Published apps are static files, so they keep working while their sandbox sleeps.</p>
-          <p class="trade"><b>Trade-off</b>The first edit after a long break waits for the sandbox to restore.</p>
         </li>
       </ul>
     </div>
